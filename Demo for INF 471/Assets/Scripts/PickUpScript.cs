@@ -39,6 +39,9 @@ public class PickUpScript : MonoBehaviour
     void OnTriggerEnter(Collider other){
         //registers if the other game object has the tag PickUp
         if( other.gameObject.CompareTag("PickUp")){
+            //to get the animator component
+            Animator anim = other.gameObject.GetComponentInParent<Animator>();  
+            anim.SetTrigger("collectibleTrigger");          
             //deletes the pickup from scene
             other.gameObject.SetActive(false);
             //add one to score whenever a collectible is picked up
