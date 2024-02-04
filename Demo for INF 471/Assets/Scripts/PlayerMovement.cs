@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
             //to get the animator component
             Animator anim2 = other.gameObject.GetComponentInParent<Animator>();
             //set the trigger to the animation trigger we made for the game object  
-            anim2.SetTrigger("Trigger2"); 
+            anim2.SetTrigger("Trigger3"); 
             other.gameObject.SetActive(false);
         }
         //registers if the other game object has the tag PickUp
