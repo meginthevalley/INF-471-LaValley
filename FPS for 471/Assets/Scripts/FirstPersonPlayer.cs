@@ -7,11 +7,11 @@ public class FirstPersonPlayer : MonoBehaviour
 {
     //input the camera into the script
     public GameObject cam;
-    public float moveSpeed = 1;
-    public float jumpHeight = 1; //OPTIONAL
+    public float moveSpeed = 0.2f;
+    public float jumpHeight; //OPTIONAL
     public GameObject bulletSpawner;
     public GameObject bullet;
-    public float mouseSensitivity = 75;
+    public float mouseSensitivity = 50;
 
     private float xRotation = 0;
     float mouseX;
@@ -20,7 +20,7 @@ public class FirstPersonPlayer : MonoBehaviour
     
     //OPTIONAL: for Jump code!//
     private bool hasJumped = false;
-    private float jSpeed = 0;
+    private float jSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +29,10 @@ public class FirstPersonPlayer : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         controller = GetComponent<CharacterController>();
+
+        jumpHeight = 1;
+
+        jSpeed = 0;
     }                                                                                                                                                                                                                                                                                                                                                                                                                                           
 
     // Update is called once per frame
@@ -42,8 +46,6 @@ public class FirstPersonPlayer : MonoBehaviour
         //Vector3 for the direction we are moving in
         Vector3 moveDir = (transform.forward * movement.y) + (transform.right * movement.x);
 
-        controller.Move(moveDir * moveSpeed);
-
         //OPTIONAL: code for jumping!//
         if(hasJumped) //If the player pressed 'space' this frame...
         {
@@ -55,6 +57,8 @@ public class FirstPersonPlayer : MonoBehaviour
         jSpeed -= 9.8f * Time.deltaTime; //Artificial gravity
 
         moveDir.y = jSpeed; //We weren't using the Y of moveDir before - we'll use it for the jump!
+
+        controller.Move(moveDir * moveSpeed);
     }
 
     // OPTIONAL - Jump code! YOU NEED TO SET THIS UP IN THE INPUT ASSET!! //
