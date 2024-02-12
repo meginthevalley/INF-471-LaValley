@@ -21,6 +21,8 @@ public class FirstPersonPlayer : MonoBehaviour
     //OPTIONAL: for Jump code!//
     private bool hasJumped = false;
     private float jSpeed;
+    private bool sprinting = false;
+    private float overallSprintSpeed = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -52,11 +54,22 @@ public class FirstPersonPlayer : MonoBehaviour
             jSpeed = jumpHeight; //'jSpeed' is normally artificial gravity, but we set it to Jump height
 
             hasJumped = false; //Only do it once - set it to false!
+        
         }
 
         jSpeed -= 9.8f * Time.deltaTime; //Artificial gravity
 
         moveDir.y = jSpeed; //We weren't using the Y of moveDir before - we'll use it for the jump!
+       
+        if(sprinting) //If the player pressed 'shift' this frame...
+        {
+            moveDir.x = moveDir.x * overallSprintSpeed; 
+            moveDir.z = moveDir.z * overallSprintSpeed;
+            if(Input.GetKeyUp(KeyCode.LeftShift))
+            {
+            sprinting = false;
+            }
+        }
 
         controller.Move(moveDir * moveSpeed);
     }
@@ -96,5 +109,10 @@ public class FirstPersonPlayer : MonoBehaviour
     void OnMove(InputValue moveValue)
     {
         movement = moveValue.Get<Vector2>();
+    }
+    void OnSprint(InputValue jumpValue) 
+    {
+        
+            sprinting = true;
     }
 }
