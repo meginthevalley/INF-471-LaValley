@@ -7,7 +7,7 @@ public class FirstPersonPlayer : MonoBehaviour
 {
     //input the camera into the script
     public GameObject cam;
-    public float moveSpeed = 0.2f;
+    public float moveSpeed = 0.1f;
     public float jumpHeight; //OPTIONAL
     public GameObject bulletSpawner;
     public GameObject bullet;
@@ -22,7 +22,7 @@ public class FirstPersonPlayer : MonoBehaviour
     private bool hasJumped = false;
     private float jSpeed;
     private bool sprinting = false;
-    private float overallSprintSpeed = 5;
+    private float overallSprintSpeed = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -112,7 +112,6 @@ public class FirstPersonPlayer : MonoBehaviour
     }
     void OnSprint(InputValue jumpValue) 
     {
-        
             sprinting = true;
     }
 }
