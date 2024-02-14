@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class FirstPersonPlayer : MonoBehaviour
 {
@@ -17,12 +18,16 @@ public class FirstPersonPlayer : MonoBehaviour
     float mouseX;
     private CharacterController controller;
     Vector2 movement;
+    public GameObject EnemiesParent; 
+    private int enemiesLeft =5;
     
     //OPTIONAL: for Jump code!//
     private bool hasJumped = false;
     private float jSpeed;
     private bool sprinting = false;
     private float overallSprintSpeed = 2;
+    private TextMeshProUGUI textComponent;
+    public GameObject scoreText;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +36,9 @@ public class FirstPersonPlayer : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         controller = GetComponent<CharacterController>();
+        textComponent = scoreText.GetComponent<TextMeshProUGUI>();
+        textComponent.text = "Remaining Enemies:" + enemiesLeft.ToString();
+        enemiesLeft = EnemiesParent.transform.childCount;
 
         jumpHeight = 1;
 
@@ -44,6 +52,12 @@ public class FirstPersonPlayer : MonoBehaviour
         cam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
         transform.Rotate(Vector3.up *mouseX);
+        enemiesLeft = EnemiesParent.transform.childCount;
+        if(enemiesLeft ==0)
+        {
+            EndGame();
+        }
+        textComponent.text = "Remaining Enemies:" + enemiesLeft.ToString();
 
         //Vector3 for the direction we are moving in
         Vector3 moveDir = (transform.forward * movement.y) + (transform.right * movement.x);
@@ -113,5 +127,9 @@ public class FirstPersonPlayer : MonoBehaviour
     void OnSprint(InputValue jumpValue) 
     {
             sprinting = true;
+    }
+    void EndGame()
+    {
+        scoreText.SetActive(false);
     }
 }

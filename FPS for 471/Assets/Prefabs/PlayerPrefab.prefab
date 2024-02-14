@@ -297,7 +297,7 @@ MonoBehaviour:
   jumpHeight: 1
   bulletSpawner: {fileID: 4343554786954297897}
   bullet: {fileID: 55340584008859684, guid: f46b9b9af08288e48907d857edcdb5b1, type: 3}
-  mouseSensitivity: 75
+  mouseSensitivity: 25
 --- !u!143 &2232803090831677904
 CharacterController:
   m_ObjectHideFlags: 0

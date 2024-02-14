@@ -17,7 +17,9 @@ public class Enemy : MonoBehaviour
     {
         if (health <= 0) //If health reaches 0, destroy the enemy!
         {
-            Destroy(gameObject);
+            Animator anim = gameObject.GetComponentInParent<Animator>();
+            anim.SetTrigger("Trigger");
+            Destroy(transform.parent.gameObject, 1f);
         }
     }
 
