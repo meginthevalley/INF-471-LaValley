@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement2 : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField]
@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float gravityRate = 0.1f;
     [SerializeField]
-    private float jumpHeight = 1;
+    private float jumpHeight = 2;
 
     [HideInInspector]
     public Vector2 move_Input;
@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public CharacterController controller;
     [HideInInspector]
-    public bool jumpRequest;
+    public bool jumpRequest = false;
 
     // Start is called before the first frame update
     void Start()

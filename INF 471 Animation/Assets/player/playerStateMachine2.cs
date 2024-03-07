@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class playerStateMachine : MonoBehaviour
+public class playerStateMachine2 : MonoBehaviour
 {
     [SerializeField]
     private Animator playerAnim;
     [SerializeField]
     private float deadZone = 0.1f;
 
-    private PlayerMovement playerMove;
+    private PlayerMovement2 playerMove;
 
     private enum State
     {
@@ -24,7 +24,7 @@ public class playerStateMachine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-     playerMove.GetComponent<PlayerMovement>();
+        playerMove = GetComponent<PlayerMovement2>();
         SwitchState(State.Idle);
     }
 
@@ -32,7 +32,7 @@ public class playerStateMachine : MonoBehaviour
     void Update()
     {
         //Apply Gravity in Update
-     playerMove.ApplyGravity();
+        playerMove.ApplyGravity();
 
         //What State are we in?
         print(currentState);
@@ -71,7 +71,7 @@ public class playerStateMachine : MonoBehaviour
         else if(newState==State.Jump)
         {
             playerAnim.SetTrigger("Jump");
-         playerMove.ApplyJump();
+            playerMove.ApplyJump();
         }
         else if(newState==State.Fall)
         {
@@ -83,14 +83,14 @@ public class playerStateMachine : MonoBehaviour
     private void DoIdle()
     {
         //updates
-     playerMove.MovePlayer();
+        playerMove.MovePlayer();
 
         //ExitConditions
         if  (playerMove.jumpRequest && playerMove.controller.isGrounded) //Jump
         {
             SwitchState(State.Jump);
         }
-        else if ( playerMove.controller.isGrounded) //Fall
+        else if ( !playerMove.controller.isGrounded) //Fall
         {
             SwitchState(State.Fall);
         }
@@ -102,14 +102,14 @@ public class playerStateMachine : MonoBehaviour
     private void DoRun()
     {
         //updates
-     playerMove.MovePlayer();
+        playerMove.MovePlayer();
 
         //ExitConditions
         if ( playerMove.jumpRequest && playerMove.controller.isGrounded) //Jump
         {
             SwitchState(State.Jump);
         }
-        else if ( playerMove.controller.isGrounded) //Fall
+        else if ( !playerMove.controller.isGrounded) //Fall
         {
             SwitchState(State.Fall);
         }
@@ -121,18 +121,26 @@ public class playerStateMachine : MonoBehaviour
     private void DoJump()
     {
         //updates
-     playerMove.MovePlayer();
+        playerMove.MovePlayer();
 
         //Exit Conditions
         if (playerMove.currentY <=0) //Fall
         {
             SwitchState(State.Fall);
         }
+        else if  (playerMove.move_Input.magnitude < deadZone) //Idle
+        {
+            SwitchState(State.Idle);
+        }
+        else if  (playerMove.move_Input.magnitude >= deadZone) //Run
+        {
+            SwitchState(State.Run);
+        }
     }
     private void DoFall()
     {
         //updates
-     playerMove.MovePlayer();
+        playerMove.MovePlayer();
 
          //ExitConditions
         if  (playerMove.controller.isGrounded) //We've Landed
